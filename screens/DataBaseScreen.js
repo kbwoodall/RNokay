@@ -40,6 +40,11 @@ export default function DataBaseScreen() {
     setMsgValue(text);
   }
 
+  
+  const loadStuff = async () => {
+    fetchData() 
+  }
+
   async function addData(param) {
     /*
     alert(
@@ -54,8 +59,9 @@ export default function DataBaseScreen() {
     setMessage("Adding data");
     const ul = "https://kwoodall.herokuapp.com/postsql";
 
-    const newobj = '{"oid":' + param.id + ',"name":"' + param.name + '","email":"' + msgValue + '","description":"' + textValue + '","imageurl":"http://res.cloudinary.com/lcbklf5b3/image/upload/v1430171645/encode-2015-04-27-21-54-04.png"}';
-
+    const newobj = '{"oid":' + param.id + ',"name":"' + param.name + '","email":"' + textValue + '","description":"' + msgValue + '","imageurl":"http://res.cloudinary.com/lcbklf5b3/image/upload/v1430171645/encode-2015-04-27-21-54-04.png"}';
+    //console.log(newobj);
+    
     let ob = JSON.parse(newobj);
     let obstr = JSON.stringify(ob);
 
@@ -105,21 +111,19 @@ export default function DataBaseScreen() {
 
   }
   useEffect(() => {
-    loadFontsAsync(),
-    fetchData()
-    
+    loadFontsAsync()  
   }, []);
 
   const NoButton = () => {
-    setMsgValue(" ");
-    setTextValue(" ");
+    setMsgValue("");
+    setTextValue("" );
   }
 
   const UpdateButton = async (param) => {
     await addData(param);
     await fetchData();
-    setMsgValue(" ");
-    setTextValue(" ");
+    setMsgValue("");
+    setTextValue("");
   }
 
   const DoSomething = (param) => {
@@ -166,12 +170,12 @@ export default function DataBaseScreen() {
   }
 
   return (  
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container}>              
+        
+        <Text style={styles.CustomStuff}>
+           Message One
+        </Text>     
     
-      <Text style={styles.CustomStuff}>
-        Message One
-      </Text>
-
       <TextInput style={styles.FormulaButtonStyle}
         value={textValue}
         placeholderTextColor='black'
@@ -188,9 +192,24 @@ export default function DataBaseScreen() {
         onChangeText={(text) => updateMsgValue(text)}
       />
 
+
+    <View  style={styles.row}>
+
       <Text style={styles.CustomStuff}>
         Info: {message}
       </Text>
+
+        <View>
+              <TouchableOpacity
+                onPress={() => loadStuff()}
+              >
+                <Image
+                  source={require('../assets/images/LoadImage.png')}
+                  style={{ marginTop: 2, marginLeft: 25, width: 25, height: 25, borderRadius: 20 / 2 }}
+                />
+              </TouchableOpacity>
+        </View>   
+      </View>  
 
       <ShowData />
     </ScrollView>
@@ -215,10 +234,12 @@ const styles = StyleSheet.create({
   },
   instructions: {
     fontFamily: 'ComicSans', 
+    justifyContent: 'center',
     fontSize: 18,
-    textAlign: 'center',
-    alignItems: 'center',
-    marginLeft: 40,      
+    //alignSelf: 'center',
+    //textAlign: 'center',
+    //alignItems: 'center',
+    //marginLeft: 40,      
     color: '#333333'
   },
   FormulaButtonStyle: {
@@ -244,6 +265,12 @@ const styles = StyleSheet.create({
     color: 'purple',
     fontFamily: 'ComicSans', 
   },  
+  row: {
+    flexDirection: 'row',
+    paddingTop: 10,
+    textAlign: 'center',
+    justifyContent: 'center',
+  },
   TextStyle: {
     textAlign: 'center',
     alignItems: 'center',     
@@ -525,6 +552,17 @@ export default class App extends React.Component {
   render() {
     if (this.state.fontsLoaded) {
       return (
+        <View>
+              <TouchableOpacity
+                onPress={() => updateOddsValue("-")}
+              >
+                <Image
+                  source={require('../assets/images/LoadImage.png')}
+                  style={{ marginTop: 7, marginLeft: 15, width: 25, height: 25, borderRadius: 20 / 2 }}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         <View
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text>Platform Default</Text>
