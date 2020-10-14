@@ -62,23 +62,14 @@ const GetStuff = () => {
   return <Text>Successful so far</Text>;
 };
 
-export default function LinksScreen() {
+export default function MenuScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.topchild}>
+        <View />
         <View>
-          <Text style={styles.TextStyle}>Gallery Listing</Text>
+          <Menu />
         </View>
-      </View>
-
-      <View style={styles.child}>
-        <View style={styles.topchild2}>
-          <List />
-        </View>
-
-        <ScrollView style={styles.topchild2}>
-          <MessageWindow data={getCurrentMessageWindow()} />
-        </ScrollView>
       </View>
     </View>
   );

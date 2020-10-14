@@ -3,6 +3,7 @@ import * as React from 'react';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
+import MenuScreen from '../screens/MenuScreen';
 import LinksScreen from '../screens/LinksScreen';
 //import NotesScreen from '../screens/NotesScreen';
 import DataBaseScreen from '../screens/DataBaseScreen';
@@ -44,6 +45,16 @@ export default function BottomTabNavigator({ navigation, route }) {
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-camera" />,
         }}
       />
+
+      <BottomTab.Screen
+        name="Menu"
+        component={MenuScreen}
+        options={{
+          title: 'Menu Listing',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-camera" />,
+        }}
+      />
+
     </BottomTab.Navigator>
   );
 }
@@ -58,5 +69,7 @@ function getHeaderTitle(route) {
       return 'Database';
     case 'Links':
       return 'Gallery';
+    case 'Menu':
+      return 'Menus';  
   }
 }

@@ -1,24 +1,36 @@
-import { ScrollView } from 'react-native';
-import { Image, Platform, StyleSheet, Text, View, Button, TextInput, Alert, TouchableOpacity } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { nullLiteral } from '@babel/types';
-import { ToastAndroid } from 'react-native';
-import { AppLoading } from 'expo';
-import * as Font from 'expo-font';
+import { ScrollView } from "react-native";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  Alert,
+  TouchableOpacity
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { nullLiteral } from "@babel/types";
+import { ToastAndroid } from "react-native";
+import { AppLoading } from "expo";
+import * as Font from "expo-font";
 
 const customFonts = {
-  'ComicSans': require('../assets/fonts/comicSans.ttf')
+  ComicSans: require("../assets/fonts/comicSans.ttf")
 };
 
 export default function DataBaseScreen() {
+  const [textValue, setTextValue] = useState("");
+  const [msgValue, setMsgValue] = useState("");
 
-  const [textValue, setTextValue] = useState('');
-  const [msgValue, setMsgValue] = useState('');
+  const testDoctors = [
+    { physician: "Ed Soumi" },
+    { physician: "John Soumi" },
+    { physician: "Matthew Pham" }
+  ];
 
-  const testDoctors =
-    [{ "physician": "Ed Soumi" }, { "physician": "John Soumi" }, { "physician": "Matthew Pham" }];
-
-  const [message, setMessage] = useState('Starting App');
+  const [message, setMessage] = useState("Starting App");
   const [doctors, setDoctors] = useState([]);
   const [dataStuff, setDataStuff] = useState([]);
 
@@ -29,21 +41,20 @@ export default function DataBaseScreen() {
 
   const loadFontsAsync = () => {
     Font.loadAsync(customFonts);
-    setFontsLoaded(true );
-  }
+    setFontsLoaded(true);
+  };
 
-  const updateTextValue = async (text) => {
+  const updateTextValue = async text => {
     setTextValue(text);
-  }
+  };
 
-  const updateMsgValue = async (text) => {
+  const updateMsgValue = async text => {
     setMsgValue(text);
-  }
+  };
 
-  
   const loadStuff = async () => {
-    fetchData() 
-  }
+    fetchData();
+  };
 
   async function addData(param) {
     /*
@@ -59,188 +70,193 @@ export default function DataBaseScreen() {
     setMessage("Adding data");
     const ul = "https://kwoodall.herokuapp.com/postsql";
 
-    const newobj = '{"oid":' + param.id + ',"name":"' + param.name + '","email":"' + textValue + '","description":"' + msgValue + '","imageurl":"http://res.cloudinary.com/lcbklf5b3/image/upload/v1430171645/encode-2015-04-27-21-54-04.png"}';
+    const newobj =
+      '{"oid":' +
+      param.id +
+      ',"name":"' +
+      param.name +
+      '","email":"' +
+      textValue +
+      '","description":"' +
+      msgValue +
+      '","imageurl":"http://res.cloudinary.com/lcbklf5b3/image/upload/v1430171645/encode-2015-04-27-21-54-04.png"}';
     //console.log(newobj);
-    
+
     let ob = JSON.parse(newobj);
     let obstr = JSON.stringify(ob);
 
     await fetch(ul, {
       method: "POST",
       headers: {
-        'Accept': 'application/json',
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: obstr
-    }).then(function (response) {
-      response.status     //=> number 100–599
-      response.statusText //=> String
-      response.headers    //=> Headers
-      response.url        //=> String
-      console.log("Status " + response.status)
-      //console.log("Status " + response.statusText)
-      console.log("Insert ok again")
-      setMessage("Data added to Heroku");
+    }).then(
+      function(response) {
+        response.status; //=> number 100–599
+        response.statusText; //=> String
+        response.headers; //=> Headers
+        response.url; //=> String
+        console.log("Status " + response.status);
+        //console.log("Status " + response.statusText)
+        console.log("Insert ok again");
+        setMessage("Data added to Heroku");
 
-      return response.status
-
-    }, function (error) {
-      console.log("Status error " + error.message)
-      error.message //=> String
-      setMessage(error.message);
-    })  
+        return response.status;
+      },
+      function(error) {
+        console.log("Status error " + error.message);
+        error.message; //=> String
+        setMessage(error.message);
+      }
+    );
   }
 
   async function fetchData() {
-
-    const URL = 'https://desolate-shelf-9039.herokuapp.com/getphysicians';
+    const URL = "https://desolate-shelf-9039.herokuapp.com/getphysicians";
     const urlmore = "https://kwoodall.herokuapp.com/gettext";
     setMessage("Loading data");
 
     await fetch(urlmore)
-      .then((response) => response.json())
-      .then((responseJson) => {
+      .then(response => response.json())
+      .then(responseJson => {
         //console.log(responseJson);
         setDataStuff(responseJson);
         setMessage("Loaded from Heroku");
       })
-      .catch((error) => {
+      .catch(error => {
         setMessage("URL not available");
         //ToastAndroid.show(error.toString(), ToastAndroid.LONG);
       });
-
   }
   useEffect(() => {
-    loadFontsAsync()  
+    loadFontsAsync();
   }, []);
 
   const NoButton = () => {
     setMsgValue("");
-    setTextValue("" );
-  }
+    setTextValue("");
+  };
 
-  const UpdateButton = async (param) => {
+  const UpdateButton = async param => {
     await addData(param);
     await fetchData();
     setMsgValue("");
     setTextValue("");
-  }
+  };
 
-  const DoSomething = (param) => {
-
+  const DoSomething = param => {
     Alert.alert(
-      'Changes to Note',
-      'Make changes now ?',
+      "Changes to Note",
+      "Make changes now ?",
       [
-        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-        {text: 'NO', onPress: () => NoButton()},
-        {text: 'OK', onPress: () => UpdateButton(param)},
+        {
+          text: "Ask me later",
+          onPress: () => console.log("Ask me later pressed")
+        },
+        { text: "NO", onPress: () => NoButton() },
+        { text: "OK", onPress: () => UpdateButton(param) }
       ],
       { cancelable: false }
-    );  
-  }
+    );
+  };
   const ShowData = () => {
     if (dataStuff.length > 0) {
       let strDoc = JSON.stringify(dataStuff[0]);
-      let docs = JSON.parse(strDoc);   
+      let docs = JSON.parse(strDoc);
       return (
         <View>
-          {
-            dataStuff.map((item, index) => (
-
-              <TouchableOpacity
-                key={item.name}
-                style={styles.container2}
-                onPress={() => DoSomething(item)}>
-
-                <Text style={styles.instructions}>
-                  {item.id} {'\n'}
-                  {item.name} {'\n'}
-                  {item.email} {'\n'}
-                  {item.description} {'\n'}
-
-                </Text>
-              </TouchableOpacity>
-            ))
-          }
+          {dataStuff.map((item, index) =>
+            <TouchableOpacity
+              key={item.name}
+              style={styles.container2}
+              onPress={() => DoSomething(item)}
+            >
+              <Text style={styles.instructions}>
+                {item.id} {"\n"}
+                {item.name} {"\n"}
+                {item.email} {"\n"}
+                {item.description} {"\n"}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
-      )
-    }
-    else return null
-  }
+      );
+    } else return null;
+  };
 
-  return (  
-    <ScrollView style={styles.container}>              
-        
-        <Text style={styles.CustomStuff}>
-           Message One
-        </Text>     
-    
-      <TextInput style={styles.FormulaButtonStyle}
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.CustomStuff}>Message One</Text>
+
+      <TextInput
+        style={styles.FormulaButtonStyle}
         value={textValue}
-        placeholderTextColor='black'
-        onChangeText={(text) => updateTextValue(text)}
+        placeholderTextColor="black"
+        onChangeText={text => updateTextValue(text)}
       />
 
-      <Text style={styles.CustomStuff}>
-        Message Two
-      </Text>
+      <Text style={styles.CustomStuff}>Message Two</Text>
 
-      <TextInput style={styles.FormulaButtonStyle}
+      <TextInput
+        style={styles.FormulaButtonStyle}
         value={msgValue}
-        placeholderTextColor='black'
-        onChangeText={(text) => updateMsgValue(text)}
+        placeholderTextColor="black"
+        onChangeText={text => updateMsgValue(text)}
       />
 
-
-    <View  style={styles.row}>
-
-      <Text style={styles.CustomStuff}>
-        Info: {message}
-      </Text>
+      <View style={styles.row}>
+        <Text style={styles.CustomStuff}>
+          Info: {message}
+        </Text>
 
         <View>
-              <TouchableOpacity
-                onPress={() => loadStuff()}
-              >
-                <Image
-                  source={require('../assets/images/LoadImage.png')}
-                  style={{ marginTop: 2, marginLeft: 25, width: 25, height: 25, borderRadius: 20 / 2 }}
-                />
-              </TouchableOpacity>
-        </View>   
-      </View>  
+          <TouchableOpacity onPress={() => loadStuff()}>
+            <Image
+              source={require("../assets/images/LoadImage.png")}
+              style={{
+                marginTop: 2,
+                marginLeft: 25,
+                width: 25,
+                height: 25,
+                borderRadius: 20 / 2
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
 
       <ShowData />
     </ScrollView>
   );
 }
 DataBaseScreen.navigationOptions = {
-  title: 'DataBase',
+  title: "DataBase"
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#03fc3d'
+    backgroundColor: "#03fc3d"
   },
   container2: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 10,
     marginTop: 10,
-    backgroundColor: '#d9f9b1',
-    alignItems: 'center',
+    backgroundColor: "#d9f9b1",
+    alignItems: "center"
   },
   instructions: {
-    fontFamily: 'ComicSans', 
-    justifyContent: 'center',
+    fontFamily: "ComicSans",
+    justifyContent: "center",
     fontSize: 18,
     //alignSelf: 'center',
     //textAlign: 'center',
     //alignItems: 'center',
-    //marginLeft: 40,      
-    color: '#333333'
+    //marginLeft: 40,
+    color: "#333333"
   },
   FormulaButtonStyle: {
     marginTop: 5,
@@ -248,39 +264,39 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     marginLeft: 30,
     marginRight: 30,
-    backgroundColor: 'lightblue',
+    backgroundColor: "lightblue",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#fff',
-    color: 'black',
-    textAlign: 'center',
+    borderColor: "#fff",
+    color: "black",
+    textAlign: "center",
     fontSize: 18,
-    fontWeight: '500',
-    fontFamily: 'ComicSans',
+    fontWeight: "500",
+    fontFamily: "ComicSans"
   },
-  CustomStuff: {    
-    textAlign: 'center',
-    alignItems: 'center',    
+  CustomStuff: {
+    textAlign: "center",
+    alignItems: "center",
     fontSize: 18,
-    color: 'purple',
-    fontFamily: 'ComicSans', 
-  },  
+    color: "purple",
+    fontFamily: "ComicSans"
+  },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingTop: 10,
-    textAlign: 'center',
-    justifyContent: 'center',
+    textAlign: "center",
+    justifyContent: "center"
   },
   TextStyle: {
-    textAlign: 'center',
-    alignItems: 'center',     
-    fontSize: 18,    
-    fontWeight: '500',
-    color: 'purple',      
-  },
+    textAlign: "center",
+    alignItems: "center",
+    fontSize: 18,
+    fontWeight: "500",
+    color: "purple"
+  }
 });
 
-  /*
+/*
 
   
   const ImagesExample = () => (
@@ -352,7 +368,7 @@ const styles = StyleSheet.create({
       });
      */
 
-    /*
+/*
    await fetch(URL)
      .then((response) => response.json())
      .then((responseJson) => {
@@ -365,7 +381,7 @@ const styles = StyleSheet.create({
      });
    */
 
-  /**
+/**
    * 
    * 
    * //fontStyle: "sans-serif",
@@ -383,11 +399,10 @@ const styles = StyleSheet.create({
        *  //onChangeText={text => onChangeText(text)}
        */
 
-
-  //alertItemName = (item) => {
-  //  alert(item.physician)
-  //}
-  /*
+//alertItemName = (item) => {
+//  alert(item.physician)
+//}
+/*
 
 
   
@@ -581,4 +596,3 @@ export default class App extends React.Component {
 
 
 */
-
