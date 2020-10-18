@@ -16,9 +16,9 @@ import { ToastAndroid } from "react-native";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 
-const customFonts = {
-  ComicSans: require("../assets/fonts/comicSans.ttf")
-};
+//const customFonts = {
+//  ComicSans: require("../assets/fonts/comicSans.ttf")
+//};
 
 export default function DataBaseScreen() {
   const [textValue, setTextValue] = useState("");
@@ -39,10 +39,10 @@ export default function DataBaseScreen() {
 
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  const loadFontsAsync = () => {
-    Font.loadAsync(customFonts);
-    setFontsLoaded(true);
-  };
+  //const loadFontsAsync = () => {
+  //  Font.loadAsync(customFonts);
+  //  setFontsLoaded(true);
+  //};
 
   const updateTextValue = async text => {
     setTextValue(text);
@@ -131,7 +131,7 @@ export default function DataBaseScreen() {
       });
   }
   useEffect(() => {
-    loadFontsAsync();
+    //loadFontsAsync();
   }, []);
 
   const NoButton = () => {
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   instructions: {
-    fontFamily: "ComicSans",
+    //fontFamily: "ComicSans",
     justifyContent: "center",
     fontSize: 18,
     //alignSelf: 'center',
@@ -271,15 +271,15 @@ const styles = StyleSheet.create({
     color: "black",
     textAlign: "center",
     fontSize: 18,
-    fontWeight: "500",
-    fontFamily: "ComicSans"
+    fontWeight: "500"
+    //fontFamily: "ComicSans"
   },
   CustomStuff: {
     textAlign: "center",
     alignItems: "center",
     fontSize: 18,
-    color: "purple",
-    fontFamily: "ComicSans"
+    color: "purple"
+    //fontFamily: "ComicSans"
   },
   row: {
     flexDirection: "row",
