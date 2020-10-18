@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     marginRight: 12
   },
   option: {
+    marginTop: 5,
     backgroundColor: "#fdfdfd",
     paddingHorizontal: 15,
     paddingVertical: 15,
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
   },
   child: {
     flex: 3,
-    //marginTop: 5,
+    marginTop: 5,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center"
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
   },
   nextchild: {
     flex: 1,
-    //paddingTop: 5,
+    marginTop: 5,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
@@ -169,7 +170,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 5
+    //bottomMargin: 10px
     //backgroundColor: '#E9967A'
   },
   TextStyle: {

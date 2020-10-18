@@ -2,32 +2,32 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 
 const Msg = () => {
-  const [openMenu, setOpenMenu] = useState(false);
+  const [openButtons, setOpenButtons] = useState(false);
   const [openCars, setOpenCars] = useState(false);
-  const [openSplash, setOpenSplash] = useState(false);
+  const [openSplash, setOpenSplash] = useState(true);
 
   const onPressMenu = () => {
-    setOpenMenu(true);
+    setOpenButtons(true);
     setOpenCars(false);
     setOpenSplash(false);
   };
 
   const onPressCars = () => {
-    setOpenMenu(false);
+    setOpenButtons(false);
     setOpenCars(true);
     setOpenSplash(false);
   };
 
   const onPressSignOut = () => {
-    setOpenMenu(false);
+    setOpenButtons(false);
     setOpenSplash(true);
   };
 
   let val =
     "https://res.cloudinary.com/lcbklf5b3/image/upload/v1468021812/corvette_dwf3oe.jpg";
 
-  const ShowNext = () => {
-    if (openMenu) {
+  const ShowButtons = () => {
+    if (openButtons) {
       return (
         <View>
           <Text style={styles.Card2} onPress={onPressCars}>
@@ -79,7 +79,7 @@ const Msg = () => {
           </Text>
         </View>
         <View>
-          <ShowNext />
+          <ShowButtons />
         </View>
         <View>
           <ShowCars />
